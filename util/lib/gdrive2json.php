@@ -19,10 +19,10 @@
       header("Content-type: application/json; charset=UTF-8;");
       echo gdrive2json($key, $gid);
 
- *  Permission to use, copy, modify, and/or distribute this software for any 
- *  purpose with or without fee is hereby granted, provided that the above 
+ *  Permission to use, copy, modify, and/or distribute this software for any
+ *  purpose with or without fee is hereby granted, provided that the above
  *  copyright notice and this permission notice appear in all copies.
- *  
+ *
  *  The software is provided "as is" and the author disclaims all warranties
  *  with regard to this software including all implied warranties of
  *  merchantability and fitness. In no event shall the author be liable for
@@ -34,15 +34,15 @@
  */
 
 
-require_once('url_fetch.lib.php');
-require_once('parseCSV.lib.php');
+require_once('url_fetch.php');
+require_once('parsecsv.lib.php');
 
-function gdrive2json($key, $gid = '0') {
+function gdrive2json($key, $gid = '0', $version = 'ccc') {
 	if (!$key) exit("'key' parameter is required.");
 
-	$url_root = 'https://docs.google.com/spreadsheet/ccc?output=csv';
-
-	$url = "$url_root&key=$key&gid=$gid";
+	$url = ($version == 'ccc')
+	     ? "https://docs.google.com/spreadsheet/ccc?output=csv&key=$key&gid=$gid"
+	     : "https://docs.google.com/spreadsheets/d/$key/export?format=csv&gid=$gid";
 	$rc = url_fetch($url, $csv_str);
 	if ($rc) exit("URL fetch error: $rc");
 
