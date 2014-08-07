@@ -2,21 +2,28 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>TDDStateTracker</title>
+	<title>KonOpas unit tests</title>
+	<link rel="stylesheet" href="qunit.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link rel="stylesheet" href="tdd-state-tracker.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
 	<script src="tdd-state-tracker.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="qunit.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
 		function testsPassed () {
-			// Function that checks unittest results and returns true if they passed.
-			// Just pass always for now.
-			return true;
+			return this.QUnitResult;
 		}
 		var tracker=new TDDStateTracker($("#tdd-state"), testsPassed, localStorage);
+        tracker.QUnitResult=true;
 		tracker.initState();
+        QUnit.done(function (details) {
+            tracker.QUnitResult=(details.failed==0);
+            tracker.update();
+        });
 	});
 	</script>
 	<div id="tdd-state">	    
